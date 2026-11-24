@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <!-- Viewport dengan viewport-fit=cover untuk keamanan notch/gesture bar iPhone & bar navigasi Android -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#3B5687" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>The Wedding Of Meilan &amp; Ical | 29 November 2026</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Great Vibes, Cinzel, Lora, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bukuBiru: {
+              50: '#F3F6FB',
+              100: '#E2E9F5',
+              200: '#C5D3EB',
+              400: '#6D8EC4',
+              500: '#4B6BA3',
+              600: '#3B5687',
+              700: '#2E436B',
+              800: '#223250',
+              900: '#18233A'
+            },
+            teksGelap: '#2C3E50',
+            emasKartu: '#D4AF37',
+            danaBiru: '#008CE6',
+            danaBiruGelap: '#006BB3'
+          },
+          fontFamily: {
+            script: ['"Great Vibes"', 'cursive'],
+            display: ['"Cinzel"', 'serif'],
+            body: ['"Lora"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Variabel aman layar iPhone (Notch, Dynamic Island, Home Indicator) & Android */
+    :root {
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      background-color: #3B5687;
+      color: #2C3E50;
+      font-family: 'Lora', serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Tinggi dinamis penuh (100dvh) dengan fallback 100vh */
+    .min-h-screen-dvh {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .h-screen-dvh {
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* Gradasi latar belakang pas foto buku nikah klasik */
+    .bg-buku-nikah {
+      background: linear-gradient(180deg, #4B6BA3 0%, #426096 52%, #3B5687 100%);
+    }
+
+    /* Bentuk bingkai melengkung / kubah (arch / dome shape) di bagian atas kartu putih */
+    .arch-card {
+      border-top-left-radius: 140px;
+      border-top-right-radius: 140px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+
+    .arch-card-tall {
+      border-top-left-radius: 165px;
+      border-top-right-radius: 165px;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+
+    /* Bingkai kubah pas foto mempelai dengan bayangan biru lembut */
+    .arch-photo-frame {
+      border-top-left-radius: 9999px;
+      border-top-right-radius: 9999px;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      box-shadow: 0 14px 30px -6px rgba(75, 107, 163, 0.35), 0 0 0 5px #E2E9F5;
+    }
+
+    /* Animasi penutupan cover ke atas secara halus */
+    .cover-overlay {
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.75s ease;
+      padding-top: calc(1.25rem + var(--safe-top));
+      padding-bottom: calc(1.5rem + var(--safe-bottom));
+      padding-left: calc(1rem + var(--safe-left));
+      padding-right: calc(1rem + var(--safe-right));
+    }
+
+    .cover-overlay.is-opened {
+      transform: translateY(-105%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Animasi piringan hitam berputar untuk kontrol musik */
+    @keyframes spinVinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .vinyl-spin {
+      animation: spinVinyl 8s linear infinite;
+    }
+
+    .vinyl-paused {
+      animation-play-state: paused;
+    }
+
+    /* Safe-area untuk tombol mengambang dan modal */
+    .floating-left-safe {
+      left: calc(0.875rem + var(--safe-left));
+      bottom: calc(1rem + var(--safe-bottom));
+    }
+
+    .floating-right-safe {
+      right: calc(0.875rem + var(--safe-right));
+      bottom: calc(1rem + var(--safe-bottom));
+    }
+
+    .modal-safe {
+      padding-top: calc(1rem + var(--safe-top));
+      padding-bottom: calc(1rem + var(--safe-bottom));
+      padding-left: calc(0.875rem + var(--safe-left));
+      padding-right: calc(0.875rem + var(--safe-right));
+    }
+
+    /* Minimal 16px pada input/select/textarea agar iPhone Safari tidak auto-zoom */
+    input[type="text"],
+    input[type="tel"],
+    select,
+    textarea {
+      font-size: 16px !important;
+      touch-action: manipulation;
+    }
+
+    /* Ukuran sentuhan minimal 44px dan responsif sentuh mulus */
+    .btn-touch {
+      min-height: 44px;
+      min-width: 44px;
+      touch-action: manipulation;
+      user-select: none;
+    }
+
+    /* Efek kartu ATM SeaBank dengan aksen emas */
+    .seabank-card {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 55%, #1E3A5F 100%);
+      border: 1.5px solid rgba(212, 175, 55, 0.65);
+      box-shadow: 0 14px 28px -8px rgba(15, 23, 42, 0.45), inset 0 1px 0 rgba(255, 215, 110, 0.35);
+    }
+
+    /* Chip kartu ATM bergaya metalik emas */
+    .atm-chip {
+      background: linear-gradient(145deg, #F6E27A 0%, #D4AF37 45%, #AA8220 100%);
+      box-shadow: inset 0 0 0 1px rgba(120, 85, 10, 0.45);
+    }
+
+    /* Kartu aplikasi digital DANA nuansa biru khas DANA */
+    .dana-card {
+      background: linear-gradient(135deg, #008CE6 0%, #0072C6 55%, #005596 100%);
+      box-shadow: 0 14px 28px -8px rgba(0, 114, 198, 0.4);
+    }
+
+    /* Watermark besar di belakang bagian detail acara */
+    .watermark-text {
+      letter-spacing: 0.14em;
+      user-select: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body class="bg-buku-nikah text-teksGelap antialiased selection:bg-bukuBiru-200 selection:text-bukuBiru-900">
+
+  <!-- ===================================================================== -->
+  <!-- KONTAINER PENUH LAYAR PONSEL (TANPA BINGKAI / KOTAK DESKTOP)          -->
+  <!-- ===================================================================== -->
+  <div class="min-h-screen-dvh w-full bg-buku-nikah">
+    <main
+      id="invitation-app"
+      class="relative w-full min-h-screen-dvh bg-buku-nikah overflow-x-clip flex flex-col"
+    >
+
+      <!-- ================================================================= -->
+      <!-- A. HALAMAN SAMPUL / COVER (FULL SCREEN OVERLAY)                  -->
+      <!-- ================================================================= -->
+      <section
+        id="cover-section"
+        aria-label="Halaman Sampul Undangan"
+        class="cover-overlay fixed inset-0 z-50 w-full h-screen-dvh flex flex-col justify-between items-center text-center text-white overflow-hidden bg-buku-nikah"
+      >
+        <!-- Kolase Pas Foto Mempelai Kiri-Kanan Berlatar Biru + Dark Blue Overlay -->
+        <div class="absolute inset-0 z-0 grid grid-cols-2">
+          <div class="relative h-full w-full overflow-hidden">
+            <img
+              id="cover-bride-photo"
+              src=""
+              alt="Pas Foto Mempelai Wanita"
+              class="h-full w-full object-cover object-top"
+            />
+          </div>
+          <div class="relative h-full w-full overflow-hidden border-l border-white/15">
+            <img
+              id="cover-groom-photo"
+              src=""
+              alt="Pas Foto Mempelai Pria"
+              class="h-full w-full object-cover object-top"
+            />
+          </div>
+          <!-- Dark Blue Overlay agar teks sampul kontras & terbaca jelas -->
+          <div
+            class="absolute inset-0"
+            style="background: linear-gradient(180deg, rgba(24, 35, 58, 0.72) 0%, rgba(46, 67, 107, 0.66) 50%, rgba(20, 30, 50, 0.88) 100%);"
+          ></div>
+        </div>
+
+        <!-- Judul Atas Sampul -->
+        <div class="relative z-10 pt-2">
+          <p class="font-display text-[11px] uppercase tracking-[0.28em] text-bukuBiru-100/90 mb-1">
+            Buku Nikah Digital
+          </p>
+          <p class="font-display text-xs uppercase tracking-[0.22em] text-white/90">
+            The Wedding Of
+          </p>
+          <h1 class="font-script text-5xl sm:text-[54px] text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.45)] mt-1 leading-tight">
+            Meilan &amp; Ical
+          </h1>
+          <p class="font-body text-xs tracking-widest text-bukuBiru-100 mt-1">
+            Ahad, 29 November 2026
+          </p>
+        </div>
+
+        <!-- Bagian Bawah Sampul: Nama Tamu & Tombol Buka Undangan -->
+        <div class="relative z-10 w-full px-4 pb-2 flex flex-col items-center">
+          <div class="w-full rounded-2xl bg-bukuBiru-900/65 backdrop-blur-md border border-white/20 px-4 py-4 shadow-xl mb-4">
+            <p class="font-sans text-xs tracking-wide text-bukuBiru-100 mb-1">
+              Kepada Yth. Bpk/Ibu/Sdr/i
+            </p>
+            <p
+              id="guest-name-display"
+              class="font-body text-xl font-semibold text-white tracking-wide break-words"
+            >
+              Nama Tamu
+            </p>
+            <p class="font-body italic text-[11px] text-bukuBiru-100/85 mt-1.5 leading-relaxed">
+              *) Mohon maaf apabila ada kesalahan dalam penulisan nama/gelar
+            </p>
+          </div>
+
+          <button
+            id="btn-open-invitation"
+            type="button"
+            class="btn-touch inline-flex items-center justify-center gap-2.5 rounded-full bg-white text-bukuBiru-700 hover:bg-bukuBiru-50 active:scale-[0.98] font-sans font-semibold text-sm px-7 py-3.5 shadow-[0_10px_25px_rgba(0,0,0,0.35)] transition-all cursor-pointer"
+          >
+            <span aria-hidden="true" class="text-base leading-none">&#9993;</span>
+            <span>Buka Undangan</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- B. BAGIAN PEMBUKA (HERO SECTION)                                  -->
+      <!-- ================================================================= -->
+      <section
+        id="hero-section"
+        aria-label="Bagian Pembuka"
+        class="relative w-full min-h-screen-dvh flex flex-col justify-between overflow-hidden bg-bukuBiru-500"
+      >
+        <!-- Foto Gabungan Mempelai Berlatar Biru (Tanpa overlay gelap di wajah) -->
+        <div class="absolute inset-0 z-0">
+          <img
+            id="hero-couple-photo"
+            src=""
+            alt="Foto Gabungan Meilan dan Ical"
+            class="h-full w-full object-cover object-top"
+          />
+          <!-- Gradasi biru lembut hanya di bagian atas dan bawah agar teks tetap terbaca tanpa menggelapkan wajah -->
+          <div
+            class="absolute inset-x-0 top-0 h-44 pointer-events-none"
+            style="background: linear-gradient(180deg, rgba(59, 86, 135, 0.72) 0%, rgba(75, 107, 163, 0) 100%);"
+          ></div>
+          <div
+            class="absolute inset-x-0 bottom-0 h-[56%] pointer-events-none"
+            style="background: linear-gradient(180deg, rgba(59, 86, 135, 0) 0%, rgba(59, 86, 135, 0.58) 42%, rgba(34, 50, 80, 0.92) 100%);"
+          ></div>
+        </div>
+
+        <!-- Teks Atas Hero -->
+        <div class="relative z-10 pt-8 px-5 text-center text-white">
+          <p class="font-display text-xs uppercase tracking-[0.26em] text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+            The Wedding Of
+          </p>
+          <h2 class="font-script text-5xl sm:text-[56px] text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.45)] mt-1 leading-none">
+            Meilan &amp; Ical
+          </h2>
+          <p class="font-body text-sm font-medium tracking-wider text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] mt-2">
+            Ahad, 29 November 2026
+          </p>
+        </div>
+
+        <!-- Bagian Bawah Hero: 4 Kotak Countdown Glassmorphism & Tombol Save the Date -->
+        <div class="relative z-10 px-4 pb-20 pt-6 text-center text-white">
+          <p class="font-display text-[11px] uppercase tracking-[0.2em] text-bukuBiru-100 mb-3">
+            Menuju Hari Bahagia
+          </p>
+
+          <!-- 4 Kotak Countdown Timer Glassmorphism (Hari, Jam, Menit, Detik) -->
+          <div class="grid grid-cols-4 gap-2 sm:gap-2.5 max-w-sm mx-auto mb-5" aria-live="polite">
+            <div class="rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 py-2.5 px-1.5 shadow-lg">
+              <div id="cd-days" class="font-display text-xl sm:text-2xl font-bold text-white leading-tight">00</div>
+              <div class="font-sans text-[11px] text-bukuBiru-100 mt-0.5">Hari</div>
+            </div>
+            <div class="rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 py-2.5 px-1.5 shadow-lg">
+              <div id="cd-hours" class="font-display text-xl sm:text-2xl font-bold text-white leading-tight">00</div>
+              <div class="font-sans text-[11px] text-bukuBiru-100 mt-0.5">Jam</div>
+            </div>
+            <div class="rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 py-2.5 px-1.5 shadow-lg">
+              <div id="cd-minutes" class="font-display text-xl sm:text-2xl font-bold text-white leading-tight">00</div>
+              <div class="font-sans text-[11px] text-bukuBiru-100 mt-0.5">Menit</div>
+            </div>
+            <div class="rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 py-2.5 px-1.5 shadow-lg">
+              <div id="cd-seconds" class="font-display text-xl sm:text-2xl font-bold text-white leading-tight">00</div>
+              <div class="font-sans text-[11px] text-bukuBiru-100 mt-0.5">Detik</div>
+            </div>
+          </div>
+
+          <!-- Tombol Putih [ Save the date ] ke Google Calendar -->
+          <a
+            id="save-the-date-link"
+            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The+Wedding+Of+Meilan+%26+Ical&dates=20261129T020000Z/20261129T140000Z&details=Akad+Nikah+pukul+10.00+WITA+dan+Resepsi+pukul+19.00+WITA+di+Kediaman+Mempelai+Wanita.&location=Desa+Bongohulawa+Dusun+Bongohulawa+Kec.+Bongomeme+Komp.Masjid+Al-Amin"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-touch inline-flex items-center justify-center gap-2 rounded-full bg-white hover:bg-bukuBiru-50 active:scale-[0.98] text-bukuBiru-700 font-sans font-semibold text-sm px-6 py-3 shadow-xl transition-all"
+          >
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Save the date</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- C. BAGIAN AYAT SUCI & SALAM PEMBUKA                               -->
+      <!-- ================================================================= -->
+      <section
+        id="ayat-section"
+        aria-label="Ayat Suci dan Salam Pembuka"
+        class="relative w-full bg-buku-nikah pt-12 pb-6 px-4 text-center"
+      >
+        <!-- Kutipan QS. Ar-Rum: 21 dalam teks putih miring -->
+        <div class="max-w-md mx-auto px-2 pb-10">
+          <div class="w-12 h-0.5 bg-white/40 mx-auto mb-5 rounded-full"></div>
+          <p class="font-body italic text-sm sm:text-[15px] text-white/95 leading-relaxed">
+            &ldquo;Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.&rdquo;
+          </p>
+          <p class="font-display text-xs tracking-[0.2em] text-bukuBiru-100 mt-4 font-semibold">
+            QS. Ar-Rum : 21
+          </p>
+        </div>
+
+        <!-- Kartu Putih Berujung Melengkung di Atas (Arch Card) berisi Kalimat Pembuka -->
+        <div class="arch-card bg-white text-teksGelap px-6 pt-12 pb-10 shadow-[0_18px_40px_rgba(15,25,45,0.22)]">
+          <p class="font-display text-xs uppercase tracking-[0.2em] text-bukuBiru-600 mb-3">
+            Assalamu&rsquo;alaikum Warahmatullahi Wabarakatuh
+          </p>
+          <p class="font-body text-sm text-teksGelap/90 leading-relaxed">
+            Dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta&rsquo;ala, kami bermaksud menyelenggarakan acara pernikahan putra-putri kami. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- D. PROFIL MEMPELAI (THE BRIDE & THE GROOM)                        -->
+      <!-- ================================================================= -->
+      <section
+        id="couple-section"
+        aria-label="Profil Mempelai"
+        class="w-full bg-white text-teksGelap px-5 py-10 text-center"
+      >
+        <p class="font-display text-xs uppercase tracking-[0.24em] text-bukuBiru-500 mb-1">
+          Mempelai Berbahagia
+        </p>
+        <h2 class="font-display text-2xl font-bold text-bukuBiru-700 mb-8">
+          The Bride &amp; The Groom
+        </h2>
+
+        <!-- THE BRIDE -->
+        <article class="flex flex-col items-center">
+          <div class="arch-photo-frame w-48 h-60 overflow-hidden bg-bukuBiru-500 mb-5">
+            <img
+              id="bride-profile-photo"
+              src=""
+              alt="Pas Foto Mempelai Wanita - Meilan Mahmud"
+              class="w-full h-full object-cover object-top"
+            />
+          </div>
+          <p class="font-display text-[11px] uppercase tracking-[0.22em] text-bukuBiru-500 font-semibold">
+            THE BRIDE
+          </p>
+          <h3 class="font-script text-4xl text-bukuBiru-700 mt-1">
+            Meilan
+          </h3>
+          <p class="font-body text-lg font-semibold text-teksGelap mt-0.5">
+            Meilan Mahmud
+          </p>
+          <p class="font-body text-sm text-teksGelap/80 mt-2 leading-relaxed max-w-xs">
+            Putri Pertama Dari Bapak Aripin Mahmud dan Ibu Warni Lanulu
+          </p>
+
+          <!-- Ikon Facebook & Instagram Mempelai Wanita -->
+          <div class="flex items-center justify-center gap-3 mt-4">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook Meilan"
+              class="btn-touch inline-flex items-center justify-center w-11 h-11 rounded-full bg-bukuBiru-50 hover:bg-bukuBiru-500 text-bukuBiru-600 hover:text-white border border-bukuBiru-200 transition-colors"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M13.5 22v-8.2h2.7l.4-3.2h-3.1V8.6c0-.9.3-1.6 1.6-1.6h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.5v3.2h2.8V22h3.2z" />
+              </svg>
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram Meilan"
+              class="btn-touch inline-flex items-center justify-center w-11 h-11 rounded-full bg-bukuBiru-50 hover:bg-bukuBiru-500 text-bukuBiru-600 hover:text-white border border-bukuBiru-200 transition-colors"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Simbol & Besar Berwarna Biru di Tengah -->
+        <div class="my-7 flex items-center justify-center gap-4">
+          <span class="h-px w-16 bg-bukuBiru-200"></span>
+          <span class="font-script text-6xl text-bukuBiru-500 leading-none select-none">&amp;</span>
+          <span class="h-px w-16 bg-bukuBiru-200"></span>
+        </div>
+
+        <!-- THE GROOM -->
+        <article class="flex flex-col items-center">
+          <div class="arch-photo-frame w-48 h-60 overflow-hidden bg-bukuBiru-500 mb-5">
+            <img
+              id="groom-profile-photo"
+              src=""
+              alt="Pas Foto Mempelai Pria - Ical Ramlin"
+              class="w-full h-full object-cover object-top"
+            />
+          </div>
+          <p class="font-display text-[11px] uppercase tracking-[0.22em] text-bukuBiru-500 font-semibold">
+            THE GROOM
+          </p>
+          <h3 class="font-script text-4xl text-bukuBiru-700 mt-1">
+            Ical
+          </h3>
+          <p class="font-body text-lg font-semibold text-teksGelap mt-0.5">
+            Ical Ramlin
+          </p>
+          <p class="font-body text-sm text-teksGelap/80 mt-2 leading-relaxed max-w-xs">
+            Putra Pertama Dari Bapak Ermin Ramlin Dan Ibu Asna Mursidi
+          </p>
+
+          <!-- Ikon Facebook & Instagram Mempelai Pria -->
+          <div class="flex items-center justify-center gap-3 mt-4">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook Ical"
+              class="btn-touch inline-flex items-center justify-center w-11 h-11 rounded-full bg-bukuBiru-50 hover:bg-bukuBiru-500 text-bukuBiru-600 hover:text-white border border-bukuBiru-200 transition-colors"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M13.5 22v-8.2h2.7l.4-3.2h-3.1V8.6c0-.9.3-1.6 1.6-1.6h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.5v3.2h2.8V22h3.2z" />
+              </svg>
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram Ical"
+              class="btn-touch inline-flex items-center justify-center w-11 h-11 rounded-full bg-bukuBiru-50 hover:bg-bukuBiru-500 text-bukuBiru-600 hover:text-white border border-bukuBiru-200 transition-colors"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- E. DETAIL ACARA (OUR WEDDING - AKAD & RESEPSI + GALERI)           -->
+      <!-- ================================================================= -->
+      <section
+        id="event-section"
+        aria-label="Detail Acara dan Galeri"
+        class="relative w-full bg-buku-nikah pt-12 pb-12 px-4 overflow-hidden"
+      >
+        <!-- Judul Watermark OUR WEDDING -->
+        <div
+          aria-hidden="true"
+          class="watermark-text font-display text-5xl font-bold text-white/10 text-center leading-none mb-2 select-none"
+        >
+          OUR WEDDING
+        </div>
+
+        <!-- Kartu Putih Kubah Tinggi (Tall Arch Card) berisi Akad Nikah & Resepsi -->
+        <div class="arch-card-tall bg-white text-teksGelap px-5 pt-12 pb-9 shadow-[0_20px_45px_rgba(15,25,45,0.28)]">
+          <div class="text-center mb-8">
+            <p class="font-display text-xs uppercase tracking-[0.22em] text-bukuBiru-500">
+              Rangkaian Acara
+            </p>
+            <h2 class="font-display text-2xl font-bold text-bukuBiru-700 mt-1">
+              Our Wedding
+            </h2>
+          </div>
+
+          <!-- AKAD NIKAH -->
+          <div class="rounded-2xl bg-bukuBiru-50/90 border border-bukuBiru-200/80 p-5 text-center mb-6">
+            <h3 class="font-display text-lg font-bold text-bukuBiru-700 tracking-wider mb-3">
+              AKAD NIKAH
+            </h3>
+            <p class="font-body text-sm font-semibold text-teksGelap">
+              Ahad, 29 November 2026
+            </p>
+            <p class="font-body text-sm text-bukuBiru-600 font-medium mt-1">
+              Pukul 10.00 WITA - Selesai
+            </p>
+
+            <div class="my-3.5 border-t border-bukuBiru-200/70 pt-3.5">
+              <p class="font-sans text-xs font-semibold uppercase tracking-wider text-bukuBiru-600">
+                Lokasi
+              </p>
+              <p class="font-body text-sm font-semibold text-teksGelap mt-0.5">
+                Kediaman Mempelai Wanita
+              </p>
+              <p class="font-sans text-xs font-semibold uppercase tracking-wider text-bukuBiru-600 mt-3">
+                Alamat
+              </p>
+              <p class="font-body text-xs text-teksGelap/85 mt-1 leading-relaxed">
+                Desa Bongohulawa Dusun Bongohulawa Kec. Bongomeme Komp.Masjid Al-Amin
+              </p>
+            </div>
+
+            <a
+              href="https://maps.google.com/?q=Desa+Bongohulawa+Kec.+Bongomeme+Kabupaten+Gorontalo"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-touch mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-bukuBiru-500 hover:bg-bukuBiru-600 active:scale-[0.98] text-white font-sans font-semibold text-xs px-5 py-2.5 shadow-md transition-all"
+            >
+              <span aria-hidden="true">&#128205;</span>
+              <span>Lihat Lokasi</span>
+            </a>
+          </div>
+
+          <!-- RESEPSI -->
+          <div class="rounded-2xl bg-bukuBiru-50/90 border border-bukuBiru-200/80 p-5 text-center">
+            <h3 class="font-display text-lg font-bold text-bukuBiru-700 tracking-wider mb-3">
+              RESEPSI
+            </h3>
+            <p class="font-body text-sm font-semibold text-teksGelap">
+              Ahad, 29 November 2026
+            </p>
+            <p class="font-body text-sm text-bukuBiru-600 font-medium mt-1">
+              Pukul 19.00 WITA - Selesai
+            </p>
+
+            <div class="my-3.5 border-t border-bukuBiru-200/70 pt-3.5">
+              <p class="font-sans text-xs font-semibold uppercase tracking-wider text-bukuBiru-600">
+                Lokasi
+              </p>
+              <p class="font-body text-sm font-semibold text-teksGelap mt-0.5">
+                Kediaman Mempelai Wanita
+              </p>
+              <p class="font-sans text-xs font-semibold uppercase tracking-wider text-bukuBiru-600 mt-3">
+                Alamat
+              </p>
+              <p class="font-body text-xs text-teksGelap/85 mt-1 leading-relaxed">
+                Desa Bongohulawa Dusun Bongohulawa Kec. Bongomeme Komp.Masjid Al-Amin
+              </p>
+            </div>
+
+            <a
+              href="https://maps.google.com/?q=Desa+Bongohulawa+Kec.+Bongomeme+Kabupaten+Gorontalo"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-touch mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-bukuBiru-500 hover:bg-bukuBiru-600 active:scale-[0.98] text-white font-sans font-semibold text-xs px-5 py-2.5 shadow-md transition-all"
+            >
+              <span aria-hidden="true">&#128205;</span>
+              <span>Lihat Lokasi</span>
+            </a>
+          </div>
+
+          <!-- GALERI OUR WEDDING: 3 Foto dengan bingkai putih biru -->
+          <!-- Foto Galeri 1 & Foto Galeri 2 berukuran sama (berdampingan) -->
+          <!-- Foto Galeri 3 berukuran gabungan lebar bingkai Foto Galeri 1 & 2 (memanjang penuh di bawahnya) -->
+          <div class="mt-9">
+            <p class="font-display text-xs uppercase tracking-[0.22em] text-bukuBiru-500 text-center">
+              Momen Bahagia
+            </p>
+            <h3 class="font-display text-xl font-bold text-bukuBiru-700 text-center mt-1 mb-4">
+              Galeri Our Wedding
+            </h3>
+
+            <div class="grid grid-cols-2 gap-3">
+              <!-- Foto Galeri 1 -->
+              <div class="aspect-square rounded-2xl p-1.5 bg-gradient-to-br from-bukuBiru-100 to-bukuBiru-500 shadow-md overflow-hidden">
+                <img
+                  id="gallery-photo-1"
+                  src=""
+                  alt="Foto Galeri 1 Meilan dan Ical"
+                  class="w-full h-full object-cover object-top rounded-xl bg-bukuBiru-500"
+                />
+              </div>
+
+              <!-- Foto Galeri 2 -->
+              <div class="aspect-square rounded-2xl p-1.5 bg-gradient-to-br from-bukuBiru-100 to-bukuBiru-500 shadow-md overflow-hidden">
+                <img
+                  id="gallery-photo-2"
+                  src=""
+                  alt="Foto Galeri 2 Meilan dan Ical"
+                  class="w-full h-full object-cover object-top rounded-xl bg-bukuBiru-500"
+                />
+              </div>
+
+              <!-- Foto Galeri 3 (col-span-2: gabungan lebar Galeri 1 dan Galeri 2, menyesuaikan proporsi asli tanpa terpotong) -->
+              <div class="col-span-2 rounded-2xl p-1.5 bg-gradient-to-br from-bukuBiru-100 to-bukuBiru-500 shadow-md overflow-hidden flex items-center justify-center bg-bukuBiru-500">
+                <img
+                  id="gallery-photo-3"
+                  src=""
+                  alt="Foto Galeri 3 Meilan dan Ical"
+                  class="w-full h-auto object-contain rounded-xl bg-bukuBiru-500"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- F. AMPLOP DIGITAL (WEDDING GIFT)                                  -->
+      <!-- ================================================================= -->
+      <section
+        id="gift-section"
+        aria-label="Amplop Digital"
+        class="w-full bg-buku-nikah px-5 py-12 text-center text-white"
+      >
+        <p class="font-display text-xs uppercase tracking-[0.22em] text-bukuBiru-100">
+          Tanda Kasih
+        </p>
+        <h2 class="font-display text-2xl font-bold text-white mt-1">
+          Wedding Gift
+        </h2>
+        <p class="font-body text-sm text-bukuBiru-100/90 mt-2.5 leading-relaxed max-w-sm mx-auto">
+          Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat mengirimkannya melalui amplop digital berikut:
+        </p>
+
+        <!-- Tombol [ Kirim Gift ] -->
+        <button
+          id="btn-toggle-gift"
+          type="button"
+          aria-expanded="false"
+          aria-controls="gift-cards-panel"
+          class="btn-touch mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-white hover:bg-bukuBiru-50 active:scale-[0.98] text-bukuBiru-700 font-sans font-semibold text-sm px-7 py-3 shadow-xl transition-all cursor-pointer"
+        >
+          <span aria-hidden="true">&#127873;</span>
+          <span>Kirim Gift</span>
+        </button>
+
+        <!-- Panel Kartu Interaktif Amplop Digital -->
+        <div id="gift-cards-panel" class="hidden mt-7 space-y-5 text-left">
+
+          <!-- 1. Kartu ATM Digital SeaBank (Chip + Logo/Aksen Emas + SeaBank + No Rek + Salin) -->
+          <div class="seabank-card rounded-2xl p-5 text-white relative overflow-hidden">
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-2.5">
+                <div class="atm-chip w-10 h-7 rounded-md flex items-center justify-center">
+                  <div class="w-6 h-4 border border-amber-900/40 rounded-sm grid grid-cols-2">
+                    <span class="border-r border-amber-900/35"></span>
+                    <span></span>
+                  </div>
+                </div>
+                <span class="font-sans text-[11px] uppercase tracking-widest text-amber-300/90 font-semibold">
+                  ATM Digital
+                </span>
+              </div>
+
+              <!-- Logo & Tulisan SeaBank berwarna Emas -->
+              <div class="flex items-center gap-1.5">
+                <svg class="w-6 h-6 text-[#F5C84C]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2L4 6.5v5.2c0 5.1 3.4 9.8 8 11.3 4.6-1.5 8-6.2 8-11.3V6.5L12 2zm0 4.2l4 2.2v3.3c0 3.2-1.7 6.1-4 7.3-2.3-1.2-4-4.1-4-7.3V8.4l4-2.2z" />
+                </svg>
+                <span class="font-sans font-extrabold text-base tracking-wide text-[#F5C84C]">
+                  SeaBank
+                </span>
+              </div>
+            </div>
+
+            <p class="font-sans text-[11px] uppercase tracking-wider text-slate-300">
+              Nomor Rekening
+            </p>
+            <p class="font-sans text-lg sm:text-xl font-bold tracking-wider text-[#FFE484] mt-0.5 select-all">
+              901196495191
+            </p>
+
+            <div class="mt-4 flex items-end justify-between gap-2">
+              <div>
+                <p class="font-sans text-[11px] text-slate-300">Atas Nama</p>
+                <p class="font-body text-sm font-semibold text-white">Meilan Mahmud</p>
+              </div>
+              <button
+                type="button"
+                data-copy="901196495191"
+                class="copy-btn btn-touch inline-flex items-center gap-1.5 rounded-xl bg-[#D4AF37] hover:bg-[#E5C14A] active:scale-95 text-slate-950 font-sans font-bold text-xs px-4 py-2 transition-all cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Salin No. Rek</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Kartu Aplikasi Digital DANA (Biru Khas DANA + Logo DANA + 085241546970 + Salin) -->
+          <div class="dana-card rounded-2xl p-5 text-white border border-white/25 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-5">
+              <span class="font-sans text-[11px] uppercase tracking-widest bg-white/20 px-2.5 py-1 rounded-full font-semibold">
+                E-Wallet
+              </span>
+
+              <!-- Logo Aplikasi DANA -->
+              <div class="flex items-center gap-1.5 bg-white text-danaBiruGelap px-3 py-1 rounded-xl shadow-sm">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 11.5h-2v2h-3v-2h-2v-3h2v-2h3v2h2v3z" />
+                </svg>
+                <span class="font-sans font-extrabold text-sm tracking-tight">DANA</span>
+              </div>
+            </div>
+
+            <p class="font-sans text-[11px] uppercase tracking-wider text-white/80">
+              Nomor DANA
+            </p>
+            <p class="font-sans text-lg sm:text-xl font-bold tracking-wider text-white mt-0.5 select-all">
+              085241546970
+            </p>
+
+            <div class="mt-4 flex items-end justify-between gap-2">
+              <div>
+                <p class="font-sans text-[11px] text-white/80">Atas Nama</p>
+                <p class="font-body text-sm font-semibold text-white">Meilan Mahmud</p>
+              </div>
+              <button
+                type="button"
+                data-copy="085241546970"
+                class="copy-btn btn-touch inline-flex items-center gap-1.5 rounded-xl bg-white hover:bg-blue-50 active:scale-95 text-danaBiruGelap font-sans font-bold text-xs px-4 py-2 transition-all cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Salin Nomor</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Kartu Kirim Kado Fisik -->
+          <div class="rounded-2xl bg-white text-teksGelap p-5 shadow-xl border border-bukuBiru-200">
+            <div class="flex items-center gap-2.5 mb-3">
+              <span class="w-9 h-9 rounded-full bg-bukuBiru-100 text-bukuBiru-600 flex items-center justify-center text-base" aria-hidden="true">
+                &#128230;
+              </span>
+              <div>
+                <h3 class="font-display text-sm font-bold text-bukuBiru-700 uppercase tracking-wider">
+                  Kirim Kado Fisik
+                </h3>
+                <p class="font-sans text-xs text-teksGelap/70">Alamat Pengiriman Bingkisan</p>
+              </div>
+            </div>
+
+            <div class="space-y-1.5 font-body text-sm text-teksGelap/90 bg-bukuBiru-50 rounded-xl p-3.5 border border-bukuBiru-100">
+              <p><span class="font-semibold">Penerima:</span> Meilan Mahmud</p>
+              <p><span class="font-semibold">Alamat:</span> Desa Bongohulawa Dusun Bongohulawa Kec. Bongomeme Komp.Masjid Al-Amin</p>
+              <p><span class="font-semibold">Telp:</span> 085241546970</p>
+            </div>
+
+            <button
+              type="button"
+              data-copy="Meilan Mahmud - Desa Bongohulawa Dusun Bongohulawa Kec. Bongomeme Komp.Masjid Al-Amin (Telp: 085241546970)"
+              class="copy-btn btn-touch mt-3.5 w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-bukuBiru-500 hover:bg-bukuBiru-600 active:scale-[0.99] text-white font-sans font-semibold text-xs py-2.5 transition-all cursor-pointer"
+            >
+              <span>Salin Alamat Lengkap</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- G. UCAPAN & KONFIRMASI KEHADIRAN (WISHES & RSVP)                  -->
+      <!-- ================================================================= -->
+      <section
+        id="wishes-section"
+        aria-label="Ucapan dan Konfirmasi Kehadiran"
+        class="w-full bg-white text-teksGelap px-5 pt-12 pb-28"
+      >
+        <div class="text-center mb-6">
+          <p class="font-display text-xs uppercase tracking-[0.22em] text-bukuBiru-500">
+            Doa &amp; Kehadiran
+          </p>
+          <h2 class="font-display text-2xl font-bold text-bukuBiru-700 mt-1">
+            Wishes &amp; RSVP
+          </h2>
+          <p class="font-sans text-xs font-semibold text-bukuBiru-600 mt-2">
+            Total Ucapan: <span id="wishes-count" class="font-bold">0</span>
+          </p>
+        </div>
+
+        <!-- Form Ucapan & RSVP -->
+        <form id="wishes-form" class="rounded-2xl bg-bukuBiru-50/80 border border-bukuBiru-200 p-4 sm:p-5 space-y-4 mb-7">
+          <div>
+            <label for="wish-name" class="block font-sans text-xs font-semibold text-bukuBiru-700 mb-1.5">
+              Nama Tamu
+            </label>
+            <input
+              id="wish-name"
+              name="wishName"
+              type="text"
+              required
+              placeholder="Masukkan nama Anda"
+              class="w-full rounded-xl bg-white border border-bukuBiru-200 focus:border-bukuBiru-500 focus:ring-2 focus:ring-bukuBiru-200 outline-none px-3.5 py-2.5 text-teksGelap"
+            />
+          </div>
+
+          <div>
+            <label for="wish-attendance" class="block font-sans text-xs font-semibold text-bukuBiru-700 mb-1.5">
+              Konfirmasi Kehadiran
+            </label>
+            <select
+              id="wish-attendance"
+              name="wishAttendance"
+              class="w-full rounded-xl bg-white border border-bukuBiru-200 focus:border-bukuBiru-500 focus:ring-2 focus:ring-bukuBiru-200 outline-none px-3.5 py-2.5 text-teksGelap"
+            >
+              <option value="Hadir">Hadir</option>
+              <option value="Tidak Hadir">Tidak Hadir</option>
+              <option value="Masih Ragu">Masih Ragu</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="wish-message" class="block font-sans text-xs font-semibold text-bukuBiru-700 mb-1.5">
+              Ucapan &amp; Doa Restu
+            </label>
+            <textarea
+              id="wish-message"
+              name="wishMessage"
+              rows="3"
+              required
+              placeholder="Tuliskan ucapan selamat dan doa untuk Meilan & Ical..."
+              class="w-full rounded-xl bg-white border border-bukuBiru-200 focus:border-bukuBiru-500 focus:ring-2 focus:ring-bukuBiru-200 outline-none px-3.5 py-2.5 text-teksGelap resize-y"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-touch w-full rounded-xl bg-bukuBiru-500 hover:bg-bukuBiru-600 active:scale-[0.99] text-white font-sans font-semibold text-sm py-3 shadow-md transition-all cursor-pointer"
+          >
+            Kirim
+          </button>
+        </form>
+
+        <!-- Daftar Ucapan Tersimpan Otomatis di localStorage -->
+        <div id="wishes-list" class="space-y-3.5"></div>
+
+        <!-- Penutup Undangan Sederhana -->
+        <footer class="mt-12 pt-6 border-t border-bukuBiru-100 text-center">
+          <p class="font-script text-3xl text-bukuBiru-600">Meilan &amp; Ical</p>
+          <p class="font-body italic text-xs text-teksGelap/70 mt-1">
+            Terima kasih atas doa restu dan kehadiran Anda
+          </p>
+        </footer>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TOMBOL MENGAMBANG: POJOK KIRI BAWAH (HANYA IKON PENGATURAN)       -->
+      <!-- ================================================================= -->
+      <button
+        id="btn-open-settings"
+        type="button"
+        aria-label="Pengaturan Foto dan Musik"
+        class="btn-touch floating-left-safe fixed z-40 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-bukuBiru-700 border border-bukuBiru-200 shadow-[0_8px_22px_rgba(0,0,0,0.25)] flex items-center justify-center transition-transform active:scale-95 cursor-pointer"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+
+      <!-- ================================================================= -->
+      <!-- TOMBOL MENGAMBANG: POJOK KANAN BAWAH (PIRINGAN HITAM BERPUTAR)    -->
+      <!-- ================================================================= -->
+      <button
+        id="btn-music-toggle"
+        type="button"
+        aria-label="Putar atau Jeda Musik Latar"
+        class="btn-touch floating-right-safe fixed z-40 w-12 h-12 rounded-full bg-bukuBiru-900 text-white border-2 border-white/80 shadow-[0_8px_22px_rgba(0,0,0,0.32)] flex items-center justify-center transition-transform active:scale-95 cursor-pointer"
+      >
+        <div id="vinyl-disc" class="vinyl-spin vinyl-paused w-9 h-9 rounded-full bg-gradient-to-tr from-slate-950 via-slate-800 to-bukuBiru-600 flex items-center justify-center border border-white/25">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-300 border border-slate-900"></span>
+        </div>
+      </button>
+
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL PANEL "EDIT PENGATURAN" (MUSIK PRESET/FILE & UNGGAH 5 FOTO)    -->
+  <!-- ===================================================================== -->
+  <div
+    id="settings-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="settings-modal-title"
+    class="modal-safe fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/75 backdrop-blur-sm overflow-y-auto"
+  >
+    <div class="w-full max-w-[420px] max-h-[88dvh] overflow-y-auto rounded-3xl bg-white text-teksGelap shadow-2xl border border-bukuBiru-200 p-5 my-auto">
+      <!-- Header Modal -->
+      <div class="flex items-center justify-between pb-3 border-b border-bukuBiru-100 sticky top-0 bg-white z-10">
+        <div>
+          <h2 id="settings-modal-title" class="font-display text-lg font-bold text-bukuBiru-700">
+            Edit Pengaturan
+          </h2>
+          <p class="font-sans text-xs text-teksGelap/70">
+            Musik latar &amp; foto dari perangkat
+          </p>
+        </div>
+        <button
+          id="btn-close-settings"
+          type="button"
+          aria-label="Tutup Pengaturan"
+          class="btn-touch w-11 h-11 rounded-full bg-bukuBiru-50 hover:bg-bukuBiru-100 text-bukuBiru-700 flex items-center justify-center font-sans font-bold text-lg cursor-pointer"
+        >
+          &times;
+        </button>
+      </div>
+
+      <div class="space-y-6 mt-4">
+        <!-- 1. BAGIAN MUSIK LATAR (Hanya Preset Bawaan & Unggah File Audio Lokal, Tanpa Input URL MP3) -->
+        <div class="rounded-2xl bg-bukuBiru-50/80 border border-bukuBiru-200 p-4">
+          <h3 class="font-sans text-sm font-bold text-bukuBiru-700 mb-3 flex items-center gap-2">
+            <span aria-hidden="true">&#127925;</span>
+            <span>Musik Latar</span>
+          </h3>
+
+          <label for="preset-music-select" class="block font-sans text-xs font-semibold text-teksGelap mb-1.5">
+            Pilih Lagu Bawaan (Preset)
+          </label>
+          <select
+            id="preset-music-select"
+            class="w-full rounded-xl bg-white border border-bukuBiru-200 focus:border-bukuBiru-500 outline-none px-3 py-2.5 text-teksGelap mb-3.5"
+          >
+            <option value="preset-1">Preset 1 — Melodi Harapan (Piano &amp; String Lembut)</option>
+            <option value="preset-2">Preset 2 — Janji Suci (Akustik &amp; Harmoni Tenang)</option>
+            <option value="preset-3">Preset 3 — Cinta Abadi (Wals Klasik Romantis)</option>
+          </select>
+
+          <label for="upload-audio-input" class="block font-sans text-xs font-semibold text-teksGelap mb-1.5">
+            Atau Unggah File Audio dari Perangkat
+          </label>
+          <input
+            id="upload-audio-input"
+            type="file"
+            accept="audio/*"
+            class="block w-full text-xs text-teksGelap file:mr-3 file:py-2.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-sans file:font-semibold file:bg-bukuBiru-500 file:text-white hover:file:bg-bukuBiru-600 cursor-pointer"
+          />
+          <p id="selected-audio-label" class="font-sans text-[11px] text-bukuBiru-600 mt-2 break-all">
+            Aktif: Preset 1 — Melodi Harapan
+          </p>
+        </div>
+
+        <!-- 2. BAGIAN FOTO (Hanya Unggah File Gambar dari Perangkat untuk 5 Foto, Tanpa Tempel URL Foto) -->
+        <div class="rounded-2xl bg-bukuBiru-50/80 border border-bukuBiru-200 p-4">
+          <h3 class="font-sans text-sm font-bold text-bukuBiru-700 mb-3 flex items-center gap-2">
+            <span aria-hidden="true">&#128247;</span>
+            <span>Unggah Foto dari Perangkat</span>
+          </h3>
+
+          <div class="space-y-4">
+            <!-- Pas Foto Mempelai Wanita latar biru -->
+            <div class="bg-white rounded-xl p-3 border border-bukuBiru-100">
+              <div class="flex items-center gap-3 mb-2">
+                <img id="preview-photo-bride" src="" alt="Pratinjau Mempelai Wanita" class="w-12 h-14 object-cover object-top rounded-lg bg-bukuBiru-500 shrink-0" />
+                <span class="font-sans text-xs font-semibold text-bukuBiru-700">
+                  Pas Foto Mempelai Wanita (Latar Biru)
+                </span>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                data-photo-key="bride"
+                class="photo-file-input block w-full text-xs text-teksGelap file:mr-2.5 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-sans file:font-semibold file:bg-bukuBiru-100 file:text-bukuBiru-700 hover:file:bg-bukuBiru-200 cursor-pointer"
+              />
+            </div>
+
+            <!-- Pas Foto Mempelai Pria latar biru -->
+            <div class="bg-white rounded-xl p-3 border border-bukuBiru-100">
+              <div class="flex items-center gap-3 mb-2">
+                <img id="preview-photo-groom" src="" alt="Pratinjau Mempelai Pria" class="w-12 h-14 object-cover object-top rounded-lg bg-bukuBiru-500 shrink-0" />
+                <span class="font-sans text-xs font-semibold text-bukuBiru-700">
+                  Pas Foto Mempelai Pria (Latar Biru)
+                </span>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                data-photo-key="groom"
+                class="photo-file-input block w-full text-xs text-teksGelap file:mr-2.5 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-sans file:font-semibold file:bg-bukuBiru-100 file:text-bukuBiru-700 hover:file:bg-bukuBiru-200 cursor-pointer"
+              />
+            </div>
+
+            <!-- Foto Galeri 1 -->
+            <div class="bg-white rounded-xl p-3 border border-bukuBiru-100">
+              <div class="flex items-center gap-3 mb-2">
+                <img id="preview-photo-gallery1" src="" alt="Pratinjau Galeri 1" class="w-12 h-12 object-cover object-top rounded-lg bg-bukuBiru-500 shrink-0" />
+                <span class="font-sans text-xs font-semibold text-bukuBiru-700">
+                  Foto Galeri 1
+                </span>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                data-photo-key="gallery1"
+                class="photo-file-input block w-full text-xs text-teksGelap file:mr-2.5 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-sans file:font-semibold file:bg-bukuBiru-100 file:text-bukuBiru-700 hover:file:bg-bukuBiru-200 cursor-pointer"
+              />
+            </div>
+
+            <!-- Foto Galeri 2 -->
+            <div class="bg-white rounded-xl p-3 border border-bukuBiru-100">
+              <div class="flex items-center gap-3 mb-2">
+                <img id="preview-photo-gallery2" src="" alt="Pratinjau Galeri 2" class="w-12 h-12 object-cover object-top rounded-lg bg-bukuBiru-500 shrink-0" />
+                <span class="font-sans text-xs font-semibold text-bukuBiru-700">
+                  Foto Galeri 2
+                </span>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                data-photo-key="gallery2"
+                class="photo-file-input block w-full text-xs text-teksGelap file:mr-2.5 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-sans file:font-semibold file:bg-bukuBiru-100 file:text-bukuBiru-700 hover:file:bg-bukuBiru-200 cursor-pointer"
+              />
+            </div>
+
+            <!-- Foto Galeri 3 -->
+            <div class="bg-white rounded-xl p-3 border border-bukuBiru-100">
+              <div class="flex items-center gap-3 mb-2">
+                <img id="preview-photo-gallery3" src="" alt="Pratinjau Galeri 3" class="w-16 h-auto object-contain rounded-lg bg-bukuBiru-500 shrink-0" />
+                <span class="font-sans text-xs font-semibold text-bukuBiru-700">
+                  Foto Galeri 3
+                </span>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                data-photo-key="gallery3"
+                class="photo-file-input block w-full text-xs text-teksGelap file:mr-2.5 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-sans file:font-semibold file:bg-bukuBiru-100 file:text-bukuBiru-700 hover:file:bg-bukuBiru-200 cursor-pointer"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Tombol Simpan & Reset -->
+        <div class="flex items-center gap-2.5 pt-1">
+          <button
+            id="btn-reset-settings"
+            type="button"
+            class="btn-touch flex-1 rounded-xl bg-bukuBiru-100 hover:bg-bukuBiru-200 text-bukuBiru-800 font-sans font-semibold text-xs py-3 transition-colors cursor-pointer"
+          >
+            Reset Bawaan
+          </button>
+          <button
+            id="btn-save-settings"
+            type="button"
+            class="btn-touch flex-[2] rounded-xl bg-bukuBiru-500 hover:bg-bukuBiru-600 text-white font-sans font-semibold text-sm py-3 shadow-md transition-colors cursor-pointer"
+          >
+            Simpan Pengaturan
+          </button>
+        </div>
+
+        <!-- 3. GENERATOR LINK TAMU UNDANGAN (?to=Nama+Tamu) -->
+        <div class="rounded-2xl bg-bukuBiru-50/80 border border-bukuBiru-200 p-4">
+          <h3 class="font-sans text-sm font-bold text-bukuBiru-700 mb-2 flex items-center gap-2">
+            <span aria-hidden="true">&#128279;</span>
+            <span>Link Undangan Tamu</span>
+          </h3>
+          <p class="font-sans text-[11px] text-teksGelap/75 mb-3 leading-relaxed">
+            Masukkan nama tamu untuk membuat tautan undangan khusus yang siap dikirim.
+          </p>
+
+          <label for="invite-guest-input" class="block font-sans text-xs font-semibold text-teksGelap mb-1.5">
+            Nama Tamu
+          </label>
+          <input
+            id="invite-guest-input"
+            type="text"
+            placeholder="Contoh: Bpk. Ahmad & Keluarga"
+            class="w-full rounded-xl bg-white border border-bukuBiru-200 focus:border-bukuBiru-500 outline-none px-3.5 py-2.5 text-teksGelap mb-3"
+          />
+
+          <label for="generated-invite-link" class="block font-sans text-xs font-semibold text-teksGelap mb-1.5">
+            Tautan Undangan
+          </label>
+          <input
+            id="generated-invite-link"
+            type="text"
+            readonly
+            value=""
+            class="w-full rounded-xl bg-white/90 border border-bukuBiru-200 px-3.5 py-2.5 text-bukuBiru-700 font-sans text-xs mb-3"
+          />
+
+          <div class="flex items-center gap-2">
+            <button
+              id="btn-copy-invite-link"
+              type="button"
+              class="btn-touch flex-1 rounded-xl bg-bukuBiru-500 hover:bg-bukuBiru-600 text-white font-sans font-semibold text-xs py-2.5 px-3 transition-colors cursor-pointer"
+            >
+              Salin Link
+            </button>
+            <a
+              id="btn-share-wa-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-touch flex-1 inline-flex items-center justify-center rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-sans font-semibold text-xs py-2.5 px-3 transition-colors"
+            >
+              Kirim WA
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TOAST NOTIFIKASI ("Berhasil disalin" & Info Penyimpanan)              -->
+  <!-- ===================================================================== -->
+  <div
+    id="toast-notification"
+    role="status"
+    aria-live="polite"
+    class="fixed top-6 left-1/2 -translate-x-1/2 z-[60] pointer-events-none opacity-0 -translate-y-3 transition-all duration-300 px-4 w-full max-w-xs flex justify-center"
+    style="top: calc(1.25rem + var(--safe-top));"
+  >
+    <div id="toast-text" class="rounded-full bg-slate-900/95 text-white font-sans text-xs font-semibold px-5 py-2.5 shadow-xl border border-white/15 text-center">
+      Berhasil disalin
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT VANILLA: STATE, AUDIO SYNTHESIZER/FILE, FOTO, COUNTDOWN, RSVP -->
+  <!-- ===================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Kunci penyimpanan localStorage
+      const STORAGE_KEYS = {
+        PHOTOS: 'meilan_ical_photos_v1',
+        MUSIC: 'meilan_ical_music_v1',
+        WISHES: 'meilan_ical_wishes_v1'
+      };
+
+      // Pembuat SVG pas foto berlatar biru klasik (#4B6BA3) sebagai gambar bawaan bersih tanpa URL eksternal
+      function createDefaultBluePortraitDataUrl(label, sublabel, isWide) {
+        const w = isWide ? 800 : 600;
+        const h = isWide ? 500 : 750;
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+            <defs>
+              <linearGradient id="bgBlue" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#5678B3"/>
+                <stop offset="100%" stop-color="#3B5687"/>
+              </linearGradient>
+            </defs>
+            <rect width="${w}" height="${h}" fill="url(#bgBlue)"/>
+            <circle cx="${w / 2}" cy="${h * 0.36}" r="${Math.min(w, h) * 0.14}" fill="#E2E9F5" opacity="0.92"/>
+            <path d="M ${w * 0.24} ${h * 0.78} C ${w * 0.24} ${h * 0.56}, ${w * 0.76} ${h * 0.56}, ${w * 0.76} ${h * 0.78} Z" fill="#E2E9F5" opacity="0.92"/>
+            <rect x="${w * 0.14}" y="${h * 0.82}" width="${w * 0.72}" height="${h * 0.11}" rx="14" fill="#223250" opacity="0.65"/>
+            <text x="${w / 2}" y="${h * 0.868}" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, serif" font-size="${Math.round(w * 0.036)}" font-weight="bold">${label}</text>
+            <text x="${w / 2}" y="${h * 0.905}" text-anchor="middle" fill="#C5D3EB" font-family="sans-serif" font-size="${Math.round(w * 0.022)}">${sublabel}</text>
+          </svg>
+        `.trim();
+        return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+      }
+
+      const DEFAULT_PHOTOS = {
+        bride: createDefaultBluePortraitDataUrl('MEILAN MAHMUD', 'Pas Foto Mempelai Wanita', false),
+        groom: createDefaultBluePortraitDataUrl('ICAL RAMLIN', 'Pas Foto Mempelai Pria', false),
+        gallery1: createDefaultBluePortraitDataUrl('MEILAN & ICAL', 'Galeri 1 • Buku Nikah', false),
+        gallery2: createDefaultBluePortraitDataUrl('29 NOVEMBER 2026', 'Galeri 2 • Buku Nikah', false),
+        gallery3: createDefaultBluePortraitDataUrl('MEILAN & ICAL • BONGOHULAWA', 'Galeri 3 • Momen Bahagia', true)
+      };
+
+      const DEFAULT_MUSIC = {
+        mode: 'preset', // 'preset' | 'uploaded'
+        presetId: 'preset-1',
+        presetName: 'Preset 1 — Melodi Harapan',
+        uploadedDataUrl: '',
+        uploadedName: ''
+      };
+
+      const PRESET_CATALOG = {
+        'preset-1': {
+          label: 'Preset 1 — Melodi Harapan',
+          tempoMs: 520,
+          notes: [261.63, 329.63, 392.00, 523.25, 493.88, 392.00, 329.63, 293.66]
+        },
+        'preset-2': {
+          label: 'Preset 2 — Janji Suci',
+          tempoMs: 600,
+          notes: [220.00, 277.18, 329.63, 440.00, 392.00, 329.63, 277.18, 246.94]
+        },
+        'preset-3': {
+          label: 'Preset 3 — Cinta Abadi',
+          tempoMs: 460,
+          notes: [293.66, 369.99, 440.00, 587.33, 554.37, 440.00, 369.99, 329.63]
+        }
+      };
+
+      const DEFAULT_WISHES = [
+        {
+          id: 'w-init-1',
+          name: 'Keluarga Besar Bongohulawa',
+          attendance: 'Hadir',
+          message: 'Barakallahu lakuma wa baraka alaikuma wa jamaa bainakuma fi khair. Semoga menjadi keluarga sakinah, mawaddah, warahmah.',
+          timestamp: Date.now() - 1000 * 60 * 45
+        },
+        {
+          id: 'w-init-2',
+          name: 'Rizky & Nabila',
+          attendance: 'Hadir',
+          message: 'Selamat menempuh hidup baru Meilan & Ical! Bahagia selalu dan dilancarkan segala prosesi acaranya.',
+          timestamp: Date.now() - 1000 * 60 * 15
+        }
+      ];
+
+      // State aktif di memori
+      let currentPhotos = { ...DEFAULT_PHOTOS };
+      let draftPhotos = { ...DEFAULT_PHOTOS };
+      let currentMusic = { ...DEFAULT_MUSIC };
+      let draftMusic = { ...DEFAULT_MUSIC };
+      let wishesList = [];
+
+      // Status & mesin pemutar musik (Web Audio untuk preset bawaan + HTMLAudioElement untuk file audio unggahan)
+      let isPlaying = false;
+      let audioCtx = null;
+      let presetTimerId = null;
+      let noteIndex = 0;
+      const uploadedAudioEl = new Audio();
+      uploadedAudioEl.loop = true;
+
+      // Elemen DOM
+      const coverSection = document.getElementById('cover-section');
+      const btnOpenInvitation = document.getElementById('btn-open-invitation');
+      const guestNameDisplay = document.getElementById('guest-name-display');
+      const btnMusicToggle = document.getElementById('btn-music-toggle');
+      const vinylDisc = document.getElementById('vinyl-disc');
+      const btnOpenSettings = document.getElementById('btn-open-settings');
+      const settingsModal = document.getElementById('settings-modal');
+      const btnCloseSettings = document.getElementById('btn-close-settings');
+      const btnSaveSettings = document.getElementById('btn-save-settings');
+      const btnResetSettings = document.getElementById('btn-reset-settings');
+      const inviteGuestInput = document.getElementById('invite-guest-input');
+      const generatedInviteLink = document.getElementById('generated-invite-link');
+      const btnCopyInviteLink = document.getElementById('btn-copy-invite-link');
+      const btnShareWaLink = document.getElementById('btn-share-wa-link');
+      const presetMusicSelect = document.getElementById('preset-music-select');
+      const uploadAudioInput = document.getElementById('upload-audio-input');
+      const selectedAudioLabel = document.getElementById('selected-audio-label');
+      const btnToggleGift = document.getElementById('btn-toggle-gift');
+      const giftCardsPanel = document.getElementById('gift-cards-panel');
+      const wishesForm = document.getElementById('wishes-form');
+      const wishesListEl = document.getElementById('wishes-list');
+      const wishesCountEl = document.getElementById('wishes-count');
+      const toastEl = document.getElementById('toast-notification');
+      const toastTextEl = document.getElementById('toast-text');
+
+      // Helper Toast Notifikasi
+      let toastTimeout = null;
+      function showToast(message) {
+        toastTextEl.textContent = message;
+        toastEl.classList.remove('opacity-0', '-translate-y-3');
+        toastEl.classList.add('opacity-100', 'translate-y-0');
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toastEl.classList.remove('opacity-100', 'translate-y-0');
+          toastEl.classList.add('opacity-0', '-translate-y-3');
+        }, 2300);
+      }
+
+      // Penyimpanan aman ke localStorage (menangani kuota penuh jika file besar)
+      function safeSaveLocalStorage(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+          return true;
+        } catch (err) {
+          console.warn('Gagal menyimpan ke localStorage:', err);
+          return false;
+        }
+      }
+
+      function safeLoadLocalStorage(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) return fallback;
+          return JSON.parse(raw);
+        } catch (err) {
+          console.warn('Gagal membaca localStorage:', err);
+          return fallback;
+        }
+      }
+
+      // 1. Parameter URL ?to=Nama+Tamu pada Cover
+      function buildGuestInviteUrl(guestName) {
+        const cleanGuest = (guestName || 'Nama Tamu').trim() || 'Nama Tamu';
+        const encodedGuest = encodeURIComponent(cleanGuest).replace(/%20/g, '+');
+        try {
+          const baseHref = window.location.href && window.location.href !== 'about:blank'
+            ? window.location.href.split('?')[0].split('#')[0]
+            : 'undangan-meilan-ical.html';
+          return `${baseHref}?to=${encodedGuest}`;
+        } catch (err) {
+          return `undangan-meilan-ical.html?to=${encodedGuest}`;
+        }
+      }
+
+      function refreshGuestLinkGenerator() {
+        if (!inviteGuestInput || !generatedInviteLink || !btnShareWaLink) return;
+        const guestText = inviteGuestInput.value.trim() || guestNameDisplay.textContent.trim() || 'Nama Tamu';
+        const link = buildGuestInviteUrl(guestText);
+        generatedInviteLink.value = link;
+
+        const waMessage =
+          `Assalamu'alaikum Warahmatullahi Wabarakatuh\n` +
+          `Yth. ${guestText}\n\n` +
+          `Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara pernikahan kami:\n` +
+          `Meilan & Ical\n` +
+          `Ahad, 29 November 2026\n\n` +
+          `Buka undangan digital melalui tautan berikut:\n${link}`;
+        btnShareWaLink.href = `https://wa.me/?text=${encodeURIComponent(waMessage)}`;
+      }
+
+      function initGuestNameFromUrl() {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const toParam = params.get('to');
+          if (toParam && toParam.trim() !== '') {
+            const cleanName = toParam.replace(/\+/g, ' ').trim();
+            guestNameDisplay.textContent = cleanName;
+            const wishNameInput = document.getElementById('wish-name');
+            if (wishNameInput && !wishNameInput.value) {
+              wishNameInput.value = cleanName;
+            }
+          } else {
+            guestNameDisplay.textContent = 'Nama Tamu';
+          }
+        } catch (e) {
+          guestNameDisplay.textContent = 'Nama Tamu';
+        }
+        if (inviteGuestInput) {
+          inviteGuestInput.value = guestNameDisplay.textContent === 'Nama Tamu' ? '' : guestNameDisplay.textContent;
+        }
+        refreshGuestLinkGenerator();
+      }
+
+      // 2. Terapkan Foto ke seluruh elemen undangan & pratinjau modal
+      function applyPhotosToDom(photosObj) {
+        const coverBride = document.getElementById('cover-bride-photo');
+        const coverGroom = document.getElementById('cover-groom-photo');
+        const heroCouple = document.getElementById('hero-couple-photo');
+        const brideProfile = document.getElementById('bride-profile-photo');
+        const groomProfile = document.getElementById('groom-profile-photo');
+        const g1 = document.getElementById('gallery-photo-1');
+        const g2 = document.getElementById('gallery-photo-2');
+        const g3 = document.getElementById('gallery-photo-3');
+
+        const pBride = photosObj.bride || DEFAULT_PHOTOS.bride;
+        const pGroom = photosObj.groom || DEFAULT_PHOTOS.groom;
+        const pGal1 = photosObj.gallery1 || DEFAULT_PHOTOS.gallery1;
+        const pGal2 = photosObj.gallery2 || DEFAULT_PHOTOS.gallery2;
+        const pGal3 = photosObj.gallery3 || DEFAULT_PHOTOS.gallery3;
+
+        coverBride.src = pBride;
+        coverGroom.src = pGroom;
+        brideProfile.src = pBride;
+        groomProfile.src = pGroom;
+        g1.src = pGal1;
+        g2.src = pGal2;
+        g3.src = pGal3;
+
+        // Foto gabungan mempelai pada Hero menggunakan kolase/gabungan pas foto mempelai wanita & pria jika belum diganti,
+        // atau otomatis menyesuaikan bila salah satu diganti
+        heroCouple.src = photosObj.heroCombined || createCombinedHeroDataUrl(pBride, pGroom);
+
+        // Pratinjau di dalam modal Edit Pengaturan
+        document.getElementById('preview-photo-bride').src = pBride;
+        document.getElementById('preview-photo-groom').src = pGroom;
+        document.getElementById('preview-photo-gallery1').src = pGal1;
+        document.getElementById('preview-photo-gallery2').src = pGal2;
+        document.getElementById('preview-photo-gallery3').src = pGal3;
+      }
+
+      // Membuat foto gabungan mempelai berlatar biru klasik secara otomatis dari pas foto mempelai wanita & pria
+      function createCombinedHeroDataUrl(brideSrc, groomSrc) {
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
+            <rect width="900" height="1200" fill="#4B6BA3"/>
+            <image href="${brideSrc}" x="0" y="0" width="450" height="1200" preserveAspectRatio="xMidYMin slice"/>
+            <image href="${groomSrc}" x="450" y="0" width="450" height="1200" preserveAspectRatio="xMidYMin slice"/>
+            <line x1="450" y1="0" x2="450" y2="1200" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="2"/>
+          </svg>
+        `.trim();
+        return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+      }
+
+      // 3. Kontrol Musik Latar (Preset WebAudio lembut atau File Audio Unggahan)
+      function playPresetStep() {
+        const preset = PRESET_CATALOG[currentMusic.presetId] || PRESET_CATALOG['preset-1'];
+        try {
+          if (!audioCtx) {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContextClass();
+          }
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+
+          const freq = preset.notes[noteIndex % preset.notes.length];
+          noteIndex += 1;
+
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+          const now = audioCtx.currentTime;
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.exponentialRampToValueAtTime(0.045, now + 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + (preset.tempoMs / 1000) * 0.92);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + preset.tempoMs / 1000);
+        } catch (err) {
+          // Abaikan jika browser memblokir audio sebelum interaksi
+        }
+      }
+
+      function stopAllAudio() {
+        isPlaying = false;
+        vinylDisc.classList.add('vinyl-paused');
+        if (presetTimerId) {
+          clearInterval(presetTimerId);
+          presetTimerId = null;
+        }
+        try {
+          uploadedAudioEl.pause();
+        } catch (e) {}
+      }
+
+      function startMusic() {
+        stopAllAudio();
+        isPlaying = true;
+        vinylDisc.classList.remove('vinyl-paused');
+
+        if (currentMusic.mode === 'uploaded' && currentMusic.uploadedDataUrl) {
+          uploadedAudioEl.src = currentMusic.uploadedDataUrl;
+          uploadedAudioEl.play().catch(() => {
+            // Fallback ke preset bila pemutaran file lokal tertahan
+            runPresetLoop();
+          });
+        } else {
+          runPresetLoop();
+        }
+      }
+
+      function runPresetLoop() {
+        const preset = PRESET_CATALOG[currentMusic.presetId] || PRESET_CATALOG['preset-1'];
+        playPresetStep();
+        presetTimerId = setInterval(playPresetStep, preset.tempoMs);
+      }
+
+      function toggleMusic() {
+        if (isPlaying) {
+          stopAllAudio();
+        } else {
+          startMusic();
+        }
+      }
+
+      // Tombol Buka Undangan menutup cover ke atas & memutar musik latar otomatis
+      btnOpenInvitation.addEventListener('click', function () {
+        coverSection.classList.add('is-opened');
+        startMusic();
+      });
+
+      btnMusicToggle.addEventListener('click', toggleMusic);
+
+      // 4. Countdown Timer menuju 29 November 2026 pukul 10:00 WITA (UTC+8 => 02:00:00 UTC)
+      const TARGET_DATE_MS = Date.parse('2026-11-29T10:00:00+08:00');
+
+      function updateCountdown() {
+        const now = Date.now();
+        let diff = Math.max(0, TARGET_DATE_MS - now);
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        diff %= 1000 * 60 * 60 * 24;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        diff %= 1000 * 60 * 60;
+        const minutes = Math.floor(diff / (1000 * 60));
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+        document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // 5. Amplop Digital (Wedding Gift) & Salin Teks
+      btnToggleGift.addEventListener('click', function () {
+        const isHidden = giftCardsPanel.classList.contains('hidden');
+        if (isHidden) {
+          giftCardsPanel.classList.remove('hidden');
+          btnToggleGift.setAttribute('aria-expanded', 'true');
+        } else {
+          giftCardsPanel.classList.add('hidden');
+          btnToggleGift.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      function copyTextToClipboard(text) {
+        if (!text) return;
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        tempInput.setAttribute('readonly', '');
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+          document.execCommand('copy');
+          showToast('Berhasil disalin');
+        } catch (err) {
+          showToast('Gagal menyalin');
+        }
+        document.body.removeChild(tempInput);
+      }
+
+      document.querySelectorAll('.copy-btn').forEach((btn) => {
+        btn.addEventListener('click', function () {
+          const val = btn.getAttribute('data-copy') || '';
+          copyTextToClipboard(val);
+        });
+      });
+
+      // 6. Ucapan & Konfirmasi Kehadiran (Wishes & RSVP) + Waktu Relatif
+      function formatRelativeTime(timestamp) {
+        const diffSec = Math.max(1, Math.floor((Date.now() - timestamp) / 1000));
+        if (diffSec < 60) return diffSec + ' detik yang lalu';
+        const diffMin = Math.floor(diffSec / 60);
+        if (diffMin < 60) return diffMin + ' menit yang lalu';
+        const diffHour = Math.floor(diffMin / 60);
+        if (diffHour < 24) return diffHour + ' jam yang lalu';
+        const diffDay = Math.floor(diffHour / 24);
+        return diffDay + ' hari yang lalu';
+      }
+
+      function getAttendanceBadgeClass(status) {
+        if (status === 'Hadir') return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+        if (status === 'Tidak Hadir') return 'bg-rose-100 text-rose-800 border-rose-200';
+        return 'bg-amber-100 text-amber-800 border-amber-200';
+      }
+
+      function renderWishes() {
+        wishesCountEl.textContent = String(wishesList.length);
+        wishesListEl.innerHTML = '';
+
+        if (wishesList.length === 0) {
+          wishesListEl.innerHTML = `
+            <div class="rounded-2xl bg-bukuBiru-50 border border-bukuBiru-100 p-5 text-center font-body text-sm text-teksGelap/70">
+              Belum ada ucapan. Jadilah yang pertama mengirimkan doa restu.
+            </div>
+          `;
+          return;
+        }
+
+        wishesList.forEach((item) => {
+          const card = document.createElement('div');
+          card.className = 'rounded-2xl bg-white border border-bukuBiru-200/90 p-4 shadow-sm';
+
+          const topRow = document.createElement('div');
+          topRow.className = 'flex items-start justify-between gap-2 mb-1.5';
+
+          const nameEl = document.createElement('h4');
+          nameEl.className = 'font-body text-sm font-bold text-bukuBiru-700';
+          nameEl.textContent = item.name;
+
+          const badgeEl = document.createElement('span');
+          badgeEl.className = `shrink-0 font-sans text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${getAttendanceBadgeClass(item.attendance)}`;
+          badgeEl.textContent = item.attendance;
+
+          topRow.appendChild(nameEl);
+          topRow.appendChild(badgeEl);
+
+          const msgEl = document.createElement('p');
+          msgEl.className = 'font-body text-sm text-teksGelap/90 leading-relaxed mt-1';
+          msgEl.textContent = item.message;
+
+          const timeEl = document.createElement('p');
+          timeEl.className = 'font-sans text-[11px] text-teksGelap/55 mt-2';
+          timeEl.textContent = formatRelativeTime(item.timestamp);
+
+          card.appendChild(topRow);
+          card.appendChild(msgEl);
+          card.appendChild(timeEl);
+          wishesListEl.appendChild(card);
+        });
+      }
+
+      wishesForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const nameInput = document.getElementById('wish-name');
+        const attendanceInput = document.getElementById('wish-attendance');
+        const messageInput = document.getElementById('wish-message');
+
+        const name = nameInput.value.trim();
+        const attendance = attendanceInput.value;
+        const message = messageInput.value.trim();
+
+        if (!name || !message) {
+          showToast('Mohon lengkapi nama dan ucapan');
+          return;
+        }
+
+        const newWish = {
+          id: 'w-' + Date.now(),
+          name,
+          attendance,
+          message,
+          timestamp: Date.now()
+        };
+
+        wishesList.unshift(newWish);
+        safeSaveLocalStorage(STORAGE_KEYS.WISHES, wishesList);
+        renderWishes();
+
+        messageInput.value = '';
+        showToast('Ucapan berhasil dikirim');
+      });
+
+      // Perbarui waktu relatif ucapan secara berkala
+      setInterval(() => {
+        if (wishesList.length > 0) {
+          renderWishes();
+        }
+      }, 60000);
+
+      // 7. Panel "Edit Pengaturan" (Musik Preset/File Lokal & Unggah 5 Foto dari Perangkat)
+      function syncModalDraftFromCurrent() {
+        draftPhotos = { ...currentPhotos };
+        draftMusic = { ...currentMusic };
+
+        presetMusicSelect.value = draftMusic.presetId || 'preset-1';
+        uploadAudioInput.value = '';
+        if (draftMusic.mode === 'uploaded' && draftMusic.uploadedName) {
+          selectedAudioLabel.textContent = 'Aktif: File Audio — ' + draftMusic.uploadedName;
+        } else {
+          const p = PRESET_CATALOG[draftMusic.presetId] || PRESET_CATALOG['preset-1'];
+          selectedAudioLabel.textContent = 'Aktif: ' + p.label;
+        }
+
+        document.querySelectorAll('.photo-file-input').forEach((inp) => {
+          inp.value = '';
+        });
+
+        document.getElementById('preview-photo-bride').src = draftPhotos.bride;
+        document.getElementById('preview-photo-groom').src = draftPhotos.groom;
+        document.getElementById('preview-photo-gallery1').src = draftPhotos.gallery1;
+        document.getElementById('preview-photo-gallery2').src = draftPhotos.gallery2;
+        document.getElementById('preview-photo-gallery3').src = draftPhotos.gallery3;
+      }
+
+      function openSettingsModal() {
+        syncModalDraftFromCurrent();
+        refreshGuestLinkGenerator();
+        settingsModal.classList.remove('hidden');
+        settingsModal.classList.add('flex');
+      }
+
+      function closeSettingsModal() {
+        settingsModal.classList.add('hidden');
+        settingsModal.classList.remove('flex');
+      }
+
+      btnOpenSettings.addEventListener('click', openSettingsModal);
+      btnCloseSettings.addEventListener('click', closeSettingsModal);
+
+      if (inviteGuestInput) {
+        inviteGuestInput.addEventListener('input', refreshGuestLinkGenerator);
+      }
+
+      if (btnCopyInviteLink) {
+        btnCopyInviteLink.addEventListener('click', function () {
+          refreshGuestLinkGenerator();
+          copyTextToClipboard(generatedInviteLink.value);
+        });
+      }
+
+      // Perubahan pilihan lagu preset di modal
+      presetMusicSelect.addEventListener('change', function () {
+        const chosenId = presetMusicSelect.value;
+        const preset = PRESET_CATALOG[chosenId] || PRESET_CATALOG['preset-1'];
+        draftMusic.mode = 'preset';
+        draftMusic.presetId = chosenId;
+        draftMusic.presetName = preset.label;
+        selectedAudioLabel.textContent = 'Dipilih: ' + preset.label;
+      });
+
+      // Unggah file audio lokal dari perangkat (input type="file" accept="audio/*")
+      uploadAudioInput.addEventListener('change', function (e) {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          draftMusic.mode = 'uploaded';
+          draftMusic.uploadedDataUrl = ev.target.result;
+          draftMusic.uploadedName = file.name;
+          selectedAudioLabel.textContent = 'Dipilih: File Audio — ' + file.name;
+        };
+        reader.onerror = function () {
+          showToast('Gagal membaca file audio');
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Kompresi ringan gambar hasil unggahan agar tetap muat di localStorage & mulus di mobile
+      function compressImageDataUrl(dataUrl, maxWidth, quality, callback) {
+        const img = new Image();
+        img.onload = function () {
+          let targetW = img.width;
+          let targetH = img.height;
+          if (targetW > maxWidth) {
+            targetH = Math.round((targetH * maxWidth) / targetW);
+            targetW = maxWidth;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = targetW;
+          canvas.height = targetH;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, targetW, targetH);
+          try {
+            const compressed = canvas.toDataURL('image/jpeg', quality);
+            callback(compressed);
+          } catch (err) {
+            callback(dataUrl);
+          }
+        };
+        img.onerror = function () {
+          callback(dataUrl);
+        };
+        img.src = dataUrl;
+      }
+
+      // Unggah file gambar dari perangkat untuk 5 foto (input type="file" accept="image/*")
+      document.querySelectorAll('.photo-file-input').forEach((inputEl) => {
+        inputEl.addEventListener('change', function (e) {
+          const file = e.target.files && e.target.files[0];
+          const key = inputEl.getAttribute('data-photo-key');
+          if (!file || !key) return;
+
+          const reader = new FileReader();
+          reader.onload = function (ev) {
+            compressImageDataUrl(ev.target.result, 720, 0.78, function (processedUrl) {
+              draftPhotos[key] = processedUrl;
+              if (key === 'bride') document.getElementById('preview-photo-bride').src = processedUrl;
+              if (key === 'groom') document.getElementById('preview-photo-groom').src = processedUrl;
+              if (key === 'gallery1') document.getElementById('preview-photo-gallery1').src = processedUrl;
+              if (key === 'gallery2') document.getElementById('preview-photo-gallery2').src = processedUrl;
+              if (key === 'gallery3') document.getElementById('preview-photo-gallery3').src = processedUrl;
+              showToast('Foto siap disimpan');
+            });
+          };
+          reader.onerror = function () {
+            showToast('Gagal membaca file gambar');
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      // Simpan pengaturan foto & musik ke tampilan dan localStorage
+      btnSaveSettings.addEventListener('click', function () {
+        currentPhotos = { ...draftPhotos };
+        currentMusic = { ...draftMusic };
+
+        applyPhotosToDom(currentPhotos);
+
+        const savedPhotosOk = safeSaveLocalStorage(STORAGE_KEYS.PHOTOS, currentPhotos);
+        const savedMusicOk = safeSaveLocalStorage(STORAGE_KEYS.MUSIC, currentMusic);
+
+        if (isPlaying) {
+          startMusic();
+        }
+
+        closeSettingsModal();
+        if (savedPhotosOk && savedMusicOk) {
+          showToast('Pengaturan diterapkan & disimpan');
+        } else {
+          showToast('Diterapkan (ukuran file besar)');
+        }
+      });
+
+      // Reset pengaturan ke bawaan
+      btnResetSettings.addEventListener('click', function () {
+        currentPhotos = { ...DEFAULT_PHOTOS };
+        currentMusic = { ...DEFAULT_MUSIC };
+        draftPhotos = { ...DEFAULT_PHOTOS };
+        draftMusic = { ...DEFAULT_MUSIC };
+
+        try {
+          localStorage.removeItem(STORAGE_KEYS.PHOTOS);
+          localStorage.removeItem(STORAGE_KEYS.MUSIC);
+        } catch (e) {}
+
+        applyPhotosToDom(currentPhotos);
+        syncModalDraftFromCurrent();
+
+        if (isPlaying) {
+          startMusic();
+        }
+
+        showToast('Dikembalikan ke bawaan');
+      });
+
+      // Inisialisasi aplikasi saat dimuat
+      function initApp() {
+        const storedPhotos = safeLoadLocalStorage(STORAGE_KEYS.PHOTOS, null);
+        if (storedPhotos && typeof storedPhotos === 'object') {
+          currentPhotos = { ...DEFAULT_PHOTOS, ...storedPhotos };
+        }
+
+        const storedMusic = safeLoadLocalStorage(STORAGE_KEYS.MUSIC, null);
+        if (storedMusic && typeof storedMusic === 'object') {
+          currentMusic = { ...DEFAULT_MUSIC, ...storedMusic };
+        }
+
+        const storedWishes = safeLoadLocalStorage(STORAGE_KEYS.WISHES, null);
+        if (Array.isArray(storedWishes)) {
+          wishesList = storedWishes;
+        } else {
+          wishesList = [...DEFAULT_WISHES];
+          safeSaveLocalStorage(STORAGE_KEYS.WISHES, wishesList);
+        }
+
+        initGuestNameFromUrl();
+        applyPhotosToDom(currentPhotos);
+        renderWishes();
+      }
+
+      initApp();
+    })();
+  </script>
+</body>
+</html>
